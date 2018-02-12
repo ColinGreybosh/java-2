@@ -1,0 +1,34 @@
+<resources>
+    <!-- Name of the app -->
+    <string name="app_name">BMI Calculator</string>
+
+    <!-- Labels for the radio group -->
+    <string name="radio_prompt">Measurement System</string>
+    <string name="radio_imperial">Imperial</string>
+    <string name="radio_metric">Metric</string>
+
+    <!-- Hints for input fields (Take a unit as an argument) -->
+    <string name="height_hint">Height (%1$s)</string>
+    <string name="weight_hint">Weight (%1$s)</string>
+
+    <!-- Error messages if input is invalid -->
+    <string name="error_toast_height">Please enter a height.</string>
+    <string name="error_toast_weight">Please enter a weight</string>
+
+    <!-- Button text -->
+    <string name="calc_button">Calculate</string>
+
+    <!-- Output text with escaped HTML formatting (takes a string as an argument) -->
+    <string name="result_num">Your BMI is &lt;b>%1$s&lt;/b>.</string>
+
+    <!-- Output text with escaped HTML formatting (takes a string as an argument) -->
+    <string name="result_cat">You are &lt;b>%1$s&lt;/b>.</string>
+
+    <!-- String array containing possible BMI categories -->
+    <string-array name="bmi_categories">
+        <item>underweight</item>
+        <item>normal weight</item>
+        <item>overweight</item>
+        <item>obese</item>
+    </string-array>
+</resources>
