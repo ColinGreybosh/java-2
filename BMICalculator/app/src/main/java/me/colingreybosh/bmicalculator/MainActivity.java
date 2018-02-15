@@ -64,16 +64,12 @@ public class MainActivity extends AppCompatActivity
         {
             public void onClick(View view)
             { // BUTTON WAS CLICKED
-                displayBMI(view);
+                displayBMI();
             }
         });
     }
 
-    /**
-     *
-     * @param view Unused
-     */
-    public void displayBMI(View view)
+    public void displayBMI()
     {
         // Gets height/weight text fields
         EditText heightField = findViewById(R.id.etHeightField);

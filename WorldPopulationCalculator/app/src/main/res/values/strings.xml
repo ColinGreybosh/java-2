@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">World Population Calculator</string>
+
+    <string name="label_currentPop">Population</string>
+    <string name="label_currentGrowth">Growth Rate</string>
+    <string name="label_yrToEstimate">Estimated Year</string>
+    <string name="error_year">Please enter a year.</string>
+    <string name="button_estimate">Estimate</string>
+    <string name="button_clear">Clear</string>
+    <string name="label_estimatedPop">Estimated Population</string>
+</resources>
