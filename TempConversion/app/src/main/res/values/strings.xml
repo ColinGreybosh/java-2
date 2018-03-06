@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">TempConversion</string>
+    <string name="app_name">Temperature Conversion</string>
+    <string name="tvLabelF">°F</string>
+    <string name="tvLabelC">°C</string>
+    <string name="tvLabelK">K</string>
+    <string name="errorEnterTemp">Please enter a temperature.</string>
 </resources>

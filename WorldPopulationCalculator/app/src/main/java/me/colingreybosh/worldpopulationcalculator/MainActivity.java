@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         TextView tvGrowth = findViewById(R.id.tvGrowth);
 
         tvPop.setText(new DecimalFormat("#,###").format(CURRENT_POP));
-        tvGrowth.setText(new DecimalFormat("#.##%").format(CURRENT_GROWTH*100));
+        tvGrowth.setText(new DecimalFormat("0.00 %").format(CURRENT_GROWTH));
 
         Button btnEstimate = findViewById(R.id.btnEstimate);
         btnEstimate.setOnClickListener(new View.OnClickListener()
