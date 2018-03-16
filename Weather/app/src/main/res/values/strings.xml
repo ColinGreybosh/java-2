@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Weather</string>
+    <string name="action_bar_search">Search</string>
+    <string name="action_bar_weather">%s, %s</string>
+    <string name="input_hint_city">City</string>
+    <string name="input_hint_state">State</string>
+    <string name="wunderground_query">http://api.wunderground.com/api/%s/conditions/q/%s/%s.json</string>
+    <string name="query_error">Could not retrieve weather information.</string>
+</resources>
