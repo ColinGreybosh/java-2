@@ -39,25 +39,30 @@ public class MainActivity extends AppCompatActivity
                 {
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                     if (imm != null)
-                    {
+                    { // Hide keyboard on enter
                         imm.hideSoftInputFromWindow(stateET.getWindowToken(), 0);
                     }
 
-                    try
+                    if (!(stateET.getText().toString().equals("")
+                        && cityET.getText().toString().equals("")))
                     {
-                        query = new Query(context,
+                        try
+                        {
+                            query = new Query(context,
                                 R.string.wunderground_query,
                                 Config.getProperty("api.key", getApplicationContext()),
                                 stateET.getText().toString().trim(),
                                 cityET.getText().toString().trim());
-                    } catch (IOException e)
-                    {
-                        Toast.makeText(context, R.string.query_error, Toast.LENGTH_SHORT).show();
-                    }
+                        } catch (IOException e)
+                        {
+                            Toast.makeText(context, R.string.query_error, Toast.LENGTH_SHORT).show();
+                        }
 
-                    getInput(query);
-                    displayResponse(query.getResponseStr());
-                    return true;
+                        getInput(query);
+                        displayResponse(query.getResponseStr());
+                        return true;
+                    }
+                    Toast.makeText(context, R.string.query_error, Toast.LENGTH_SHORT).show();
                 }
                 return false;
             }
