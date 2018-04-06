@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity
                         }
 
                         getInput(query);
-                        displayResponse(query.getResponseStr());
+                        displayResponse(query.getResponse());
                         return true;
                     }
                     Toast.makeText(context, R.string.query_error, Toast.LENGTH_SHORT).show();

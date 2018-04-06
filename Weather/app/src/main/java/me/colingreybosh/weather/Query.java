@@ -12,7 +12,7 @@ import java.net.URL;
 
 public class Query implements Runnable
 {
-    private volatile String responseStr;
+    private volatile String responseStr = "";
 
     private Resources res;
     private Context context;
@@ -36,14 +36,14 @@ public class Query implements Runnable
     {
         try
         {
-            responseStr = getResponseStr(queryStr);
+            responseStr = getResponse(queryStr);
         } catch (IOException e)
         {
             Toast.makeText(context, res.getString(R.string.query_error), Toast.LENGTH_SHORT).show();
         }
     }
 
-    private String getResponseStr(String queryURL) throws IOException
+    private String getResponse(String queryURL) throws IOException
     {
         URL url;
         url = new URL(queryURL);
@@ -62,7 +62,7 @@ public class Query implements Runnable
         return sb.toString();
     }
 
-    String getResponseStr()
+    String getResponse()
     {
         return responseStr;
     }

@@ -1,0 +1,36 @@
+<resources>
+    <string name="app_name">Calculate Pi!</string>
+
+    <string name="amt_of_dots">Amount of Dots</string>
+    <string name="btn_calc">Calculate</string>
+    <string name="btn_reset">Clear</string>
+    <string name="btn_explain">Explanation</string>
+    <string name="pi">\u03c0 \u2248 %s</string>
+
+    <string name="circle_area">Area of a Circle = πr²</string>
+    <string name="square_area">Area of a Square = s²</string>
+    <string name="approx_pi">π ≈ 4 × points in circle / total points</string>
+    <string name="explain_text">
+        Take a circle with a radius of 1 and a square with a side length of 1. The area of the circle
+        will be π, and the area of the square will be 1. Center the circle and the square
+        on the origin of a graph and look at quadrant I. You will see the illustration shown when you
+        open the app. As you pick random points within this area, you will get closer and closer to
+        filling the entire space. By picking these points, you are slowly approximating the area of
+        the circle and the square. Since we know that the circle's area is π and the square's area is 1,
+        dividing the amount of points in the circle by the total amount of points will give you a value
+        close to π. Since we are only looking at a quarter of the entire graph, we must multiply this
+        fraction by 4 in order to find our estimated value of π.
+    </string>
+    <string name="random_org">
+        This app uses the Random.org API. The user inputs a number of points between 1 and 10000, each
+        point needing two decimal values between 0 and 1. The app sends a POST request to the API in
+        order to receive a JSON response of the needed values. If the user wants 10 points, the app
+        will ask for 20 decimals. These decimals are then converted into a coordinate position to draw
+        the points on the screen. They are also plugged into the distance formula to find out if the
+        point is inside the circle.
+    </string>
+
+    <string name="input_error">Please enter a number.</string>
+    <string name="query_error">Unable to get random numbers.</string>
+    <string name="insufficient_bits_error">The API usage cap has been met!</string>
+</resources>
