@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.colingreybosh.midterm">
 
+<<<<<<< HEAD
     <uses-permission android:name="android.permission.INTERNET"/>
+=======
+    <uses-permission android:name="android.permission.INTERNET" />
+>>>>>>> 25d0f494efa06518ef53cb5d42472e204e2c26bb
 
     <application
         android:allowBackup="true"
