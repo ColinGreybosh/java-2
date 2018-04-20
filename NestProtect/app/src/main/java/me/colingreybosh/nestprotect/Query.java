@@ -2,13 +2,15 @@ package me.colingreybosh.nestprotect;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.widget.Toast;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.URL;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * <h1>Query</h1>
@@ -34,6 +36,7 @@ public class Query implements Runnable
 
     private Auth authType = Auth.NONE;
     private String authToken = null;
+    private String bearerAuthToken = null;
 
     /**
      * Constructor for Query class which takes a string literal as a second argument
@@ -44,9 +47,9 @@ public class Query implements Runnable
      */
     Query(Context context, String queryStr, String... args)
     {
-        res = context.getResources();
-        this.context = context;
-        this.queryStr = String.format(queryStr, (Object[]) args);
+        setContext(context);
+        setRes();
+        setQueryStr(queryStr, args);
     }
 
     /**
@@ -58,75 +61,48 @@ public class Query implements Runnable
      */
     Query(Context context, int queryID, String... args)
     {
-        res = context.getResources();
-        this.context = context;
-        this.queryStr = String.format(res.getString(queryID), (Object[]) args);
+        setContext(context);
+        setRes();
+        setQueryStr(queryID, args);
+    }
+
+    private Query(){}
+
+    /**
+     * Sets queryStr equal to the formatted input
+     *
+     * @param queryStr String of the URL which the Query will receive a response
+     * @param args Any optional arguments to format queryStr with String.format()
+     */
+    public void setQueryStr(String queryStr, String... args)
+    {
+        this.queryStr = String.format(queryStr, (Object[]) args);
     }
 
     /**
-     * Runnable implementation function. Doesn't need to be run manually as this
-     * class should be passed as the argument to a Thread constructor.
+     * Sets queryStr equal to the formatted input
+     *
+     * @param queryID Resource ID of the URL which the Query will receive a response
+     * @param args Any optional arguments to format queryStr with String.format()
      */
-    public void run()
+    public void setQueryStr(int queryID, String... args)
     {
-        try
-        {
-            if (authType == Auth.NONE)
-            {
-                responseStr = getResponse(queryStr);
-            }
-            if (authType == Auth.OAUTH2 && authToken != null)
-            {
-                responseStr = getOAuth2Response(queryStr, authToken);
-            }
-        } catch (IOException e)
-        {
-            Toast.makeText(context, res.getString(R.string.query_error), Toast.LENGTH_SHORT).show();
-        }
+        setQueryStr(res.getString(queryID, (Object[]) args));
     }
 
-    private String getOAuth2Response(String queryURL, String token) throws IOException
+    /**
+     * Sets context equal to the context of the parent activity
+     *
+     * @param context Context of the activity which the Query is instantiated
+     */
+    public void setContext(Context context)
     {
-//        OkHttpClient client = new OkHttpClient.Builder()
-//            .authenticator(new Authenticator() {
-//                @Override public Request authenticate(Route route, Response response) throws IOException {
-//                    return response.request().newBuilder()
-//                        .header("Authorization", auth)
-//                        .build();
-//                }
-//            })
-//            .followRedirects(true)
-//            .followSslRedirects(true)
-//            .build();
-//
-//        Request request = new Request.Builder()
-//            .url("https://developer-api.nest.com")
-//            .get()
-//            .addHeader("content-type", "application/json; charset=UTF-8")
-//            .addHeader("authorization", auth)
-//            .build();
+        this.context = context;
+    }
 
-        URL url;
-        url = new URL(queryURL);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-
-        connection.setRequestMethod("GET");
-        connection.setInstanceFollowRedirects(true);
-        connection.setDoOutput(true);
-        connection.setRequestProperty("Authorization", "Bearer c.".concat(token));
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.connect();
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = br.readLine()) != null)
-        {
-            sb.append(line);
-        }
-        br.close();
-
-        return sb.toString();
+    private void setRes()
+    {
+        res = context.getResources();
     }
 
     /**
@@ -142,11 +118,12 @@ public class Query implements Runnable
     /**
      * Sets the token set in the authentication header of the HTTP request
      *
-     * @param authToken String of the authentication token without a 'Bearer c.' prefix
+     * @param authToken String of the authentication token without a 'Bearer ' prefix
      */
     public void setAuthToken(String authToken)
     {
         this.authToken = authToken;
+        bearerAuthToken = "Bearer ".concat(authToken);
     }
 
     /**
@@ -169,26 +146,6 @@ public class Query implements Runnable
         return authToken;
     }
 
-
-    private String getResponse(String queryURL) throws IOException
-    {
-        URL url;
-        url = new URL(queryURL);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.connect();
-
-        BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = br.readLine()) != null)
-        {
-            sb.append(line);
-        }
-        br.close();
-
-        return sb.toString();
-    }
-
     /**
      * Returns a string of the response received from the HTML endpoint.
      *
@@ -203,8 +160,66 @@ public class Query implements Runnable
             thread.join();
         } catch (InterruptedException e)
         {
-            Toast.makeText(context, res.getString(R.string.query_error), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, res.getString(R.string.query_error), Toast.LENGTH_SHORT).show();
         }
         return responseStr;
+    }
+
+    /**
+     * Runnable implementation function. Doesn't need to be run manually as this
+     * class should be passed as the argument to a Thread constructor.
+     */
+    public void run()
+    {
+        try
+        {
+            responseStr = getResponse(
+                queryStr,
+                authType,
+                bearerAuthToken);
+        } catch (Exception e)
+        {
+//            Toast.makeText(context, res.getString(R.string.query_error), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String getResponse(String queryURL, Auth auth, String... token) throws IOException
+    {
+        URL url;
+        url = new URL(queryURL);
+
+        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+        if (auth == Auth.OAUTH2 && token.length == 1)
+        {
+            connection.setRequestProperty("authorization", token[0]);
+            connection.setRequestProperty("content-type", "application/json");
+            connection.setInstanceFollowRedirects(true);
+
+            Log.d("API", token[0]);
+            Log.d("API", String.valueOf(connection.getResponseCode()));
+            Log.d("API", connection.getResponseMessage());
+        }
+        connection.connect();
+
+        InputStream is = connection.getErrorStream();
+        if (is == null)
+        {
+            is = connection.getInputStream();
+        }
+
+        return getStringBuilderFromInputStream(is).toString();
+    }
+
+    private StringBuilder getStringBuilderFromInputStream(InputStream is) throws IOException
+    {
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null)
+        {
+            sb.append(line);
+        }
+        br.close();
+        return sb;
     }
 }
