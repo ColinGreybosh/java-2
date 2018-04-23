@@ -1,16 +1,15 @@
-package me.colingreybosh.nestprotect;
+package me.colingreybosh.query;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.util.Log;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
 
-import javax.net.ssl.HttpsURLConnection;
+import okhttp3.Authenticator;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.Route;
 
 /**
  * <h1>Query</h1>
@@ -45,7 +44,7 @@ public class Query implements Runnable
      * @param queryStr String of the URL which the Query will receive a response
      * @param args Any optional arguments to format queryStr with String.format()
      */
-    Query(Context context, String queryStr, String... args)
+    public Query(Context context, String queryStr, String... args)
     {
         setContext(context);
         setRes();
@@ -59,14 +58,12 @@ public class Query implements Runnable
      * @param queryID ID of the URL which the Query will receive a response
      * @param args Any optional arguments to format queryID with String.format()
      */
-    Query(Context context, int queryID, String... args)
+    public Query(Context context, int queryID, String... args)
     {
         setContext(context);
         setRes();
         setQueryStr(queryID, args);
     }
-
-    private Query(){}
 
     /**
      * Sets queryStr equal to the formatted input
@@ -151,7 +148,7 @@ public class Query implements Runnable
      *
      * @return String The string data of the query response
      */
-    String getResponse()
+    public String getResponse()
     {
         Thread thread = new Thread(this);
         thread.start();
@@ -160,7 +157,7 @@ public class Query implements Runnable
             thread.join();
         } catch (InterruptedException e)
         {
-//            Toast.makeText(context, res.getString(R.string.query_error), Toast.LENGTH_SHORT).show();
+            return null;
         }
         return responseStr;
     }
@@ -171,55 +168,52 @@ public class Query implements Runnable
      */
     public void run()
     {
-        try
-        {
-            responseStr = getResponse(
-                queryStr,
-                authType,
-                bearerAuthToken);
-        } catch (Exception e)
-        {
-//            Toast.makeText(context, res.getString(R.string.query_error), Toast.LENGTH_SHORT).show();
-        }
+        responseStr = getResponse(
+            queryStr,
+            authType,
+            bearerAuthToken);
     }
 
-    private String getResponse(String queryURL, Auth auth, String... token) throws IOException
+    private String getResponse(String queryURL, Auth auth, final String...token)
     {
-        URL url;
-        url = new URL(queryURL);
+        OkHttpClient client;
+        Request request;
 
-        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+        OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
+            .followRedirects(true)
+            .followSslRedirects(true);
+        Request.Builder requestBuilder = new Request.Builder()
+            .url(queryURL)
+            .get()
+            .addHeader("Content-Type", "application/json; charset=UTF-8");
+
         if (auth == Auth.OAUTH2 && token.length == 1)
         {
-            connection.setRequestProperty("authorization", token[0]);
-            connection.setRequestProperty("content-type", "application/json");
-            connection.setInstanceFollowRedirects(true);
-
-            Log.d("API", token[0]);
-            Log.d("API", String.valueOf(connection.getResponseCode()));
-            Log.d("API", connection.getResponseMessage());
+            clientBuilder
+                .authenticator(new Authenticator()
+                {
+                    @Override
+                    public Request authenticate(Route route, Response response)
+                    {
+                        return response.request().newBuilder()
+                            .addHeader("Authorization", token[0])
+                            .build();
+                    }
+                });
         }
-        connection.connect();
 
-        InputStream is = connection.getErrorStream();
-        if (is == null)
+        client = clientBuilder.build();
+        request = requestBuilder.build();
+
+        try
         {
-            is = connection.getInputStream();
-        }
-
-        return getStringBuilderFromInputStream(is).toString();
-    }
-
-    private StringBuilder getStringBuilderFromInputStream(InputStream is) throws IOException
-    {
-        BufferedReader br = new BufferedReader(new InputStreamReader(is));
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = br.readLine()) != null)
+            return client.newCall(request)
+                .execute()
+                .body()
+                .string();
+        } catch (IOException e)
         {
-            sb.append(line);
+            return null;
         }
-        br.close();
-        return sb;
     }
 }
