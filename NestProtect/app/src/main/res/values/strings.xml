@@ -1,6 +1,15 @@
 <resources>
     <string name="app_name">Nest Protect</string>
 
-    <string name="query_url">https://developer-api.nest.com</string>
+    <string name="ok">%sOK</string>
+    <string name="warning">%sWarning</string>
+    <string name="emergency">%sEmergency</string>
+
+    <string name="replace">Replace%s</string>
+
+    <string name="online">Online</string>
+    <string name="offline">Offline</string>
+
+    <string name="query_url">https://developer-api.nest.com/devices/smoke_co_alarms/p66wUl13ifjoTaJjwJLW-oyb_E4zmgQg</string>
     <string name="query_error">Unable to retrieve Nest information.</string>
 </resources>
