@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">Bloomsburg</string>
+
+    <string name="okapi_num">Problem 1</string>
+    <string name="okapi_name">Okapi</string>
+    <string name="okapi_prompt">Enter Dice Rolls:</string>
+    <string name="okapi_button">Get Payout</string>
+
+    <string-array name="dice_faces">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+    </string-array>
+
+    <string name="vowel_num">Problem 2</string>
+    <string name="vowel_name">Vowel Shifter</string>
+    <string name="vowel_hint">Enter string to shift</string>
+    <string name="vowel_button">Shift String</string>
+
+    <string name="carry_num">Problem 3</string>
+    <string name="carry_name">Carry Count</string>
+
+    <string name="boxes_num">Problem 4</string>
+    <string name="boxes_name">Stacking Boxes</string>
+
+    <string name="wealth_num">Problem 5</string>
+    <string name="wealth_name">Wealth Redistribution</string>
+
+    <string name="faro_num">Problem 6</string>
+    <string name="faro_name">Faro Shuffle</string>
+
+    <string name="back_forth_num">Problem 7</string>
+    <string name="back_forth_name">Back and Forth</string>
+
+    <string name="greatest_num">Problem 8</string>
+    <string name="greatest_name">Greatest Chain of Being</string>
+
+    <string name="prime_num">Problem 9</string>
+    <string name="prime_name">Greatest Prime Factor</string>
+
+    <string name="lrr_num">Problem 10</string>
+    <string name="lrr_name">Longest Reversible Remainder</string>
+</resources>
