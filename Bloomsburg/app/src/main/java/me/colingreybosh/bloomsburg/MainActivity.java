@@ -20,16 +20,16 @@ public class MainActivity extends AppCompatActivity
         switch (view.getId())
         {
             case (R.id.okapi):
-                intent.setClass(this , OkapiActivity.class);
+                intent.setClass(this, OkapiActivity.class);
                 break;
             case (R.id.vowel):
-                intent.setClass(this , VowelActivity.class);
+                intent.setClass(this, VowelActivity.class);
                 break;
             case (R.id.carry):
-
+                intent.setClass(this, CarryActivity.class);
                 break;
             case (R.id.boxes):
-
+                intent.setClass(this, BoxesActivity.class);
                 break;
             case (R.id.wealth):
 

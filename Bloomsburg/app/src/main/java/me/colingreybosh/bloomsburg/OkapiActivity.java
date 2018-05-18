@@ -22,7 +22,7 @@ public class OkapiActivity extends AppCompatActivity
         die3 = findViewById(R.id.die3);
         payoutTV = findViewById(R.id.payoutTV);
     }
-
+    
     public void onClick(View view)
     {
         int[] nums = {

@@ -19,11 +19,19 @@
         <activity
             android:name=".OkapiActivity"
             android:label="@string/okapi_name"
-            android:parentActivityName="me.colingreybosh.bloomsburg.MainActivity"/>
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".VowelActivity"
             android:label="@string/vowel_name"
-            android:parentActivityName="me.colingreybosh.bloomsburg.MainActivity"/>
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".CarryActivity"
+            android:label="@string/carry_name"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".BoxesActivity"
+            android:label="@string/boxes_name"
+            android:parentActivityName=".MainActivity" />
     </application>
 
 </manifest>
