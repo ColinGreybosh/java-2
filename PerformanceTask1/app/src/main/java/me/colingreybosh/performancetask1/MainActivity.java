@@ -28,18 +28,25 @@ public class MainActivity extends AppCompatActivity
         textView.setText(round(lyrics));
     }
 
-    private String round(String str)
+    private String round(String inputStr)
     {
-        String input = str.replaceAll("\n", " ");
-        String round = str + "\n\n";
+        // Create a temporary variable with newline characters replaced with spaces
+        String spaceStr = inputStr.replaceAll("\n", " ");
+        // Set the output string equal to the input
+        String outputStr = inputStr + "\n\n";
 
-        int lastIndex = input.lastIndexOf(" ");
-        while (lastIndex != -1)
+        // Find the index of the last space in the temporary variable
+        int spaceIndex = spaceStr.lastIndexOf(" ");
+        while (spaceIndex != -1) // If a space is found, do this code
         {
-            round += str.substring(0, lastIndex) + "\n\n";
-            input = input.substring(0, lastIndex);
-            lastIndex = input.lastIndexOf(" ");
+            // Add the input string minus anything past the last space to the output
+            outputStr += inputStr.substring(0, spaceIndex) + "\n\n";
+            // Delete anything past the last space in the temp variable
+            spaceStr = spaceStr.substring(0, spaceIndex);
+            // Find the new index of the next, last space in the temp variable
+            spaceIndex = spaceStr.lastIndexOf(" ");
         }
-        return round;
+        // Return the output once there are no more spaces to find
+        return outputStr;
     }
 }
