@@ -32,6 +32,12 @@
             android:name=".BoxesActivity"
             android:label="@string/boxes_name"
             android:parentActivityName=".MainActivity" />
+        <activity android:name=".WealthActivity" />
+        <activity android:name=".FaroActivity" />
+        <activity android:name=".BackForthActivity" />
+        <activity android:name=".ChainActivity" />
+        <activity android:name=".PrimeActivity" />
+        <activity android:name=".RemainActivity"></activity>
     </application>
 
 </manifest>

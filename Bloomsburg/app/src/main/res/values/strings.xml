@@ -29,6 +29,15 @@
 
     <string name="boxes_num">Problem 4</string>
     <string name="boxes_name">Stacking Boxes</string>
+    <string name="boxes_hint">Enter amount of boxes</string>
+    <string name="boxes_button">Find Stacks</string>
+    <string-array name="ordinals">
+        <item>1st</item>
+        <item>2nd</item>
+        <item>3rd</item>
+        <item>%sth</item>
+    </string-array>
+    <string name="boxes_stacks">Height of %s stack: %d</string>
 
     <string name="wealth_num">Problem 5</string>
     <string name="wealth_name">Wealth Redistribution</string>

@@ -32,22 +32,22 @@ public class MainActivity extends AppCompatActivity
                 intent.setClass(this, BoxesActivity.class);
                 break;
             case (R.id.wealth):
-
+                intent.setClass(this, WealthActivity.class);
                 break;
             case (R.id.faro):
-
+                intent.setClass(this, FaroActivity.class);
                 break;
             case (R.id.back_forth):
-
+                intent.setClass(this, BackForthActivity.class);
                 break;
             case (R.id.chain):
-
+                intent.setClass(this, ChainActivity.class);
                 break;
             case (R.id.prime):
-
+                intent.setClass(this, PrimeActivity.class);
                 break;
             case (R.id.remain):
-
+                intent.setClass(this, RemainActivity.class);
                 break;
         }
         startActivity(intent);
